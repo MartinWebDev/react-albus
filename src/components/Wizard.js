@@ -32,7 +32,8 @@ class Wizard extends Component {
         history: this.history,
         init: this.init,
         next: this.next,
-        previous: this.history.goBack,
+        previous: this.previous,
+        back: this.history.goBack,
         push: this.push,
         replace: this.replace,
         ...this.state,
@@ -63,6 +64,10 @@ class Wizard extends Component {
     return this.state.steps.map(s => s.id);
   }
 
+  get previousStep() {
+    return this.ids[this.ids.indexOf(this.state.step.id) - 1]
+  }
+
   get nextStep() {
     return this.ids[this.ids.indexOf(this.state.step.id) + 1];
   }
@@ -89,6 +94,14 @@ class Wizard extends Component {
 
   push = (step = this.nextStep) => this.history.push(`${this.basename}${step}`);
   replace = (step = this.nextStep) => this.history.replace(`${this.basename}${step}`);
+
+  previous = () => {
+    if (this.props.onPrevious) {
+      this.props.onPrevious(this.getChildContext().wizard);
+    } else {
+      this.push(this.previousStep);
+    }
+  };
 
   next = () => {
     if (this.props.onNext) {

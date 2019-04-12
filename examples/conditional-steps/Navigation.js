@@ -3,7 +3,7 @@ import { WithWizard } from 'react-albus';
 
 const Navigation = () => (
   <WithWizard
-    render={({ next, previous, step, steps }) => (
+    render={({ next, previous, back, step, steps }) => (
       <div className="example-buttons">
         {steps.indexOf(step) < steps.length - 1 && (
           <button className="btn-fluid margin-1-b" onClick={next}>
